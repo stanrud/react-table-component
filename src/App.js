@@ -9,26 +9,47 @@ class App extends Component {
       products:
       [
         {
-          firstName: "kent",
-          lastName: "church",
-          progress: 58,
-          visits: 74,
-          status: "complicated"
+          product_name: "Apple iPhone X",
+          manufacturer: "Apple",
+          model: "iPhone X",
+          description: "Some sedcription about this model",
+          color: "black",
+          package_quantity: 99,
+          size: "120x80",
+          weight: "200g",
+          width: "150",
+          height: "100",
+          length: "133",
+          category: "phones"
         },
         {
-          firstName: "stan",
-          lastName: "yossss",
-          progress: 20,
-          visits: 88,
-          status: "lol"
+          product_name: "Samsung S9",
+          manufacturer: "Samsung",
+          model: "S9",
+          description: "Some sedcription about this model",
+          color: "white",
+          package_quantity: 129,
+          size: "150x90",
+          weight: "190g",
+          width: "160",
+          height: "140",
+          length: "154",
+          category: "phones"
         },
         {
-          firstName: "Lor",
-          lastName: "Ken",
-          progress: 21,
-          visits: 2,
-          status: "active"
-        }
+          product_name: "Nintendo Switch",
+          manufacturer: "Nintendo",
+          model: "Switch 1000H",
+          description: "Some sedcription about this model",
+          color: "grey",
+          package_quantity: 20,
+          size: "290x88",
+          weight: "400g",
+          width: "1080",
+          height: "720",
+          length: "300",
+          category: "consoles"
+        },
       ]
     }
   }

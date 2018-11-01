@@ -72,28 +72,56 @@ class TableComponent extends Component {
           data={data}
           columns={[
             {
-              Header: "First Name",
-              accessor: "firstName"
+              Header: "Product Name",
+              accessor: "product_name"
             },
             {
-              Header: "Last Name",
-              id: "lastName",
-              accessor: d => d.lastName
+              Header: "Manufacturer",
+              id: "manufacturer",
+              accessor: d => d.manufacturer
             },
             {
-              Header: "Progress",
-              accessor: "progress"
+              Header: "Model",
+              accessor: "model"
             },
             {
-              Header: "Visits",
-              accessor: "visits"
+              Header: "Description",
+              accessor: "description"
             },
             {
-              Header: "Status",
-              accessor: "status"
+              Header: "Color",
+              accessor: "color"
+            },
+            {
+              Header: "Package Quantity",
+              accessor: "package_quantity"
+            },
+            {
+              Header: "Size",
+              accessor: "size"
+            },
+            {
+              Header: "Weight",
+              accessor: "weight"
+            },
+            {
+              Header: "Width",
+              accessor: "width"
+            },
+            {
+              Header: "Height",
+              accessor: "height"
+            },
+            {
+              Header: "Length",
+              accessor: "length"
+            },
+            {
+              Header: "Category",
+              accessor: "category"
             }
           ]}
-          filterable={true}
+          // filterable={true}
           // resolveData={data => data.filter(item => item.visits > 80)}
           defaultPageSize={10}
           className="-striped -highlight"
