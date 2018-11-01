@@ -14,8 +14,22 @@ class TableComponent extends Component {
     this.exportFile = this.exportFile.bind(this);
   }
 
+  componentDidMount() {
+    const { products } = this.props;
+    if (products && products.length > 0) {
+      let tableHeaders = [];
+      let tableData = [];
+      products.map((item) => {
+        tableHeaders = Object.keys(item); //Reapiting assignment
+        tableData.push(Object.values(item));
+      });
+      this.setState({ data: [...this.state.data, tableData], cols: [...this.state.cols, tableHeaders] });
+    }
+  }
+
   /* import from workbook */
   importFile(file) {
+    console.log(this.state);
 		/* Boilerplate to set up FileReader */
 		const reader = new FileReader();
 		const rABS = !!reader.readAsBinaryString;
