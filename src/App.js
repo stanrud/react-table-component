@@ -12,25 +12,24 @@ class App extends Component {
           firstName: "birthday",
           lastName: "church",
           progress: 58,
-          status: "complicated",
-          visits: 74
+          visits: 74,
+          status: "complicated"
         },
         {
           firstName: "stan",
           lastName: "yossss",
           progress: 20,
-          status: "lol",
-          visits: 88
+          visits: 88,
+          status: "lol"
         },
         {
           firstName: "Lor",
           lastName: "Ken",
           progress: 21,
-          status: "active",
-          visits: 2
+          visits: 2,
+          status: "active"
         }
-      ],
-      data: [["stan", "rud", 20, "active", 40], ["lep", "kool", 33, "active", 12], ["ddd", "aaa", 34, "non", 1]]
+      ]
     }
   }
 

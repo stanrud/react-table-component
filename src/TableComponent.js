@@ -8,7 +8,8 @@ class TableComponent extends Component {
     super();
     this.state = {
 			data: [],
-			cols: []
+      cols: [],
+      headers: []
     };
     this.importFile = this.importFile.bind(this);
     this.exportFile = this.exportFile.bind(this);
@@ -17,19 +18,20 @@ class TableComponent extends Component {
   componentDidMount() {
     const { products } = this.props;
     if (products && products.length > 0) {
-      let tableHeaders = [];
+      let tableHeaders = Object.keys(products[0]);
       let tableData = [];
       products.map((item) => {
-        tableHeaders = Object.keys(item); //Reapiting assignment
         tableData.push(Object.values(item));
       });
-      this.setState({ data: [...this.state.data, tableData], cols: [...this.state.cols, tableHeaders] });
+      this.setState(prevState => ({
+        data: [...prevState.data, ...tableData],
+        headers: [...this.state.headers, ...tableHeaders]
+      }));
     }
   }
 
   /* import from workbook */
   importFile(file) {
-    console.log(this.state);
 		/* Boilerplate to set up FileReader */
 		const reader = new FileReader();
 		const rABS = !!reader.readAsBinaryString;
@@ -51,16 +53,19 @@ class TableComponent extends Component {
 
   /* export to workbook */
   exportFile() {
+    const { data, headers } = this.state;
+    console.log(headers);
 		/* convert state to workbook */
-		const ws = XLSX.utils.aoa_to_sheet(this.props.data);
+		const ws = XLSX.utils.json_to_sheet(this.props.products, {header: headers});
 		const wb = XLSX.utils.book_new();
 		XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
 		/* generate XLSX file and send to client */
-		XLSX.writeFile(wb, "sheetjs.xlsx")
+		XLSX.writeFile(wb, "sheetjs.xlsx");
   };
 
   render() {
-    const { products, data } = this.props;
+    const { products } = this.props;
+    const { data } = this.state;
     return (
       <div className="container">
       <h2>The product table</h2>
@@ -75,6 +80,10 @@ class TableComponent extends Component {
               Header: "Last Name",
               id: "lastName",
               accessor: d => d.lastName
+            },
+            {
+              Header: "Progress",
+              accessor: "progress"
             },
             {
               Header: "Visits",
@@ -95,7 +104,7 @@ class TableComponent extends Component {
             <DataInput importFile={this.importFile} />
           </div></div>
           <div className="row"><div className="col-xs-12">
-            <button disabled={!this.props.data.length} className="btn btn-success" onClick={this.exportFile}>Export</button>
+            <button disabled={!data.length} className="btn btn-success" onClick={this.exportFile}>Export</button>
           </div></div>
           <div className="row"><div className="col-xs-12">
             {/* <OutTable data={this.state.data} cols={this.state.cols} /> */}
