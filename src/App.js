@@ -9,7 +9,7 @@ class App extends Component {
       products:
       [
         {
-          firstName: "birthday",
+          firstName: "kent",
           lastName: "church",
           progress: 58,
           visits: 74,
@@ -37,7 +37,7 @@ class App extends Component {
     const { products, data } = this.state;
     return (
       <div className="App">
-        <TableComponent products={products} data={data}/>
+        <TableComponent products={products} />
       </div>
     );
   }

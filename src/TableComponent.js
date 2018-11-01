@@ -4,12 +4,13 @@ import XLSX from 'xlsx';
 import "react-table/react-table.css";
 
 class TableComponent extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-			data: [],
+			data: this.props.products,
       cols: [],
-      headers: []
+      headers: [],
+      dataImport: []
     };
     this.importFile = this.importFile.bind(this);
     this.exportFile = this.exportFile.bind(this);
@@ -24,7 +25,7 @@ class TableComponent extends Component {
         tableData.push(Object.values(item));
       });
       this.setState(prevState => ({
-        data: [...prevState.data, ...tableData],
+        // data: [...prevState.data, ...tableData],
         headers: [...this.state.headers, ...tableHeaders]
       }));
     }
@@ -40,13 +41,13 @@ class TableComponent extends Component {
 			const bstr = e.target.result;
 			const wb = XLSX.read(bstr, {type:rABS ? 'binary' : 'array'});
 			/* Get first worksheet */
-			const wsname = wb.SheetNames[0];
+      const wsname = wb.SheetNames[0];
 			const ws = wb.Sheets[wsname];
 			/* Convert array of arrays */
-			const data = XLSX.utils.sheet_to_json(ws, {header:1});
+			const data = XLSX.utils.sheet_to_json(ws);
 			/* Update state */
       this.setState({ data: data, cols: make_cols(ws['!ref']) });
-      console.log(this.state);
+      console.log(this.state.data);
 		};
 		if(rABS) reader.readAsBinaryString(file); else reader.readAsArrayBuffer(file);
   }
@@ -54,9 +55,8 @@ class TableComponent extends Component {
   /* export to workbook */
   exportFile() {
     const { data, headers } = this.state;
-    console.log(headers);
 		/* convert state to workbook */
-		const ws = XLSX.utils.json_to_sheet(this.props.products, {header: headers});
+		const ws = XLSX.utils.json_to_sheet(data, {header: headers});
 		const wb = XLSX.utils.book_new();
 		XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
 		/* generate XLSX file and send to client */
@@ -64,13 +64,12 @@ class TableComponent extends Component {
   };
 
   render() {
-    const { products } = this.props;
     const { data } = this.state;
     return (
       <div className="container">
       <h2>The product table</h2>
         <ReactTable
-          data={products}
+          data={data}
           columns={[
             {
               Header: "First Name",
