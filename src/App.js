@@ -29,14 +29,16 @@ class App extends Component {
           status: "active",
           visits: 2
         }
-      ]
+      ],
+      data: [["stan", "rud", 20, "active", 40], ["lep", "kool", 33, "active", 12], ["ddd", "aaa", 34, "non", 1]]
     }
   }
+
   render() {
-    const { products } = this.state;
+    const { products, data } = this.state;
     return (
       <div className="App">
-        <TableComponent products={products} />
+        <TableComponent products={products} data={data}/>
       </div>
     );
   }
