@@ -10,7 +10,8 @@ class TableComponent extends Component {
 			data: this.props.products,
       cols: [],
       headers: [],
-      dataImport: []
+      dataImport: [],
+      filters: []
     };
     this.importFile = this.importFile.bind(this);
     this.exportFile = this.exportFile.bind(this);
@@ -54,9 +55,11 @@ class TableComponent extends Component {
 
   /* export to workbook */
   exportFile() {
-    const { data, headers } = this.state;
+    const { data, headers, filtered } = this.state;
+    const currentRecords = this.selectTable.getResolvedState().sortedData.map(item => item._original);
+    console.log(currentRecords);
 		/* convert state to workbook */
-		const ws = XLSX.utils.json_to_sheet(data, {header: headers});
+		const ws = XLSX.utils.json_to_sheet(currentRecords, {header: headers});
 		const wb = XLSX.utils.book_new();
 		XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
 		/* generate XLSX file and send to client */
@@ -70,10 +73,16 @@ class TableComponent extends Component {
       <h2>The product table</h2>
         <ReactTable
           data={data}
+          onFilteredChange={(filters, column) => {console.log(column);}}
+          ref={(r) => {this.selectTable = r;}}
+          defaultFilterMethod={(filter, row) =>
+            String(row[filter.id]).includes(filter.value)}
           columns={[
             {
               Header: "Product Name",
-              accessor: "product_name"
+              accessor: "product_name",
+              filterMethod: (filter, row) =>
+                row[filter.id].startsWith(filter.value)
             },
             {
               Header: "Manufacturer",
@@ -121,7 +130,7 @@ class TableComponent extends Component {
               accessor: "category"
             }
           ]}
-          // filterable={true}
+          filterable
           // resolveData={data => data.filter(item => item.visits > 80)}
           defaultPageSize={10}
           className="-striped -highlight"
