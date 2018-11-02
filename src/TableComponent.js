@@ -45,9 +45,9 @@ class TableComponent extends Component {
       const wsname = wb.SheetNames[0];
 			const ws = wb.Sheets[wsname];
 			/* Convert array of arrays */
-			const data = XLSX.utils.sheet_to_json(ws);
+			const importData = XLSX.utils.sheet_to_json(ws);
 			/* Update state */
-      this.setState({ data: data, cols: make_cols(ws['!ref']) });
+      this.setState({ data: [...this.state.data, ...importData], cols: make_cols(ws['!ref']) });
       console.log(this.state.data);
 		};
 		if(rABS) reader.readAsBinaryString(file); else reader.readAsArrayBuffer(file);
