@@ -93,7 +93,10 @@ class TableComponent extends Component {
           <div className="btn-container">
             <DataInput importFile={this.importFile} />
             <h1 className="title">React-table component</h1>
-            <button disabled={!data.length} className="btn-export" onClick={this.exportFile}>Export</button>
+            <button disabled={!data.length} className="btn-export" onClick={this.exportFile}>
+              <i className="fa fa-table" style={{ fontSize: 36, marginRight: 10 }}></i> => 
+              <i className="fa fa-file-excel-o" style={{ fontSize: 32, marginLeft: 10 }}></i>
+            </button>
           </div>
         </DragDropFile>
         <ReactTable
@@ -157,7 +160,7 @@ class TableComponent extends Component {
           ]}
           filterable
           // resolveData={data => data.filter(item => item.visits > 80)}
-          defaultPageSize={20}
+          defaultPageSize={15}
           className="-striped -highlight"
         />
       </div>
@@ -208,7 +211,10 @@ class DataInput extends React.Component {
       <form className="form-inline">
         <div className="form-group">
           <input type="file" className="btn-import" id="file" accept={SheetJSFT} onChange={this.handleChange} />
-          <label htmlFor="file">Import</label>
+          <label htmlFor="file">
+            <i className="fa fa-file-excel-o" style={{ fontSize: 32, marginRight: 10 }}></i> =>
+            <i className="fa fa-table" style={{ fontSize: 36, marginLeft: 10 }}></i>
+          </label>
         </div>
       </form>
     ); 
