@@ -238,4 +238,6 @@ const make_cols = refstr => {
 	return o;
 };
 
+toastr.options = { "positionClass": "toast-bottom-full-width" }
+
 export default TableComponent;
