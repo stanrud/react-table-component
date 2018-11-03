@@ -1,0 +1,63 @@
+.container {
+}
+.title {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: #EFEFEF;
+  text-transform: uppercase;
+  font-size: 40px;
+}
+.btn-container {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  background-color: #9365B8;
+  align-items: center;
+}
+.btn-export {
+  width: 160px;
+  height: 60px;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: #2C82C9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 0px;
+}
+.btn-export:focus ,
+.btn-export:hover {
+    background-color: #1e5b8c;
+}
+.btn-export {
+	cursor: pointer; /* "hand" cursor */
+}
+.btn-import {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+.btn-import + label {
+  width: 160px;
+  height: 60px;
+  font-size: 1.25em;
+  font-weight: 700;
+  color: white;
+  background-color: #61BD6D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.btn-import:focus + label,
+.btn-import + label:hover {
+    background-color: #009494;
+}
+.btn-import + label {
+	cursor: pointer; /* "hand" cursor */
+}

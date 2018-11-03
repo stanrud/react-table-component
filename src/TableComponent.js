@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import ReactTable from "react-table";
 import XLSX from 'xlsx';
 import "react-table/react-table.css";
+import './styles/styles.scss';
 
 let toastr = require('toastr');
 
@@ -40,24 +41,24 @@ class TableComponent extends Component {
    */
   importFile(file) {
     const { headers } = this.state;
-		/* Boilerplate to set up FileReader */
+		// Boilerplate to set up FileReader
 		const reader = new FileReader();
 		const rABS = !!reader.readAsBinaryString;
 		reader.onload = (e) => {
-			/* Parse data */
+			// Parse data
 			const bstr = e.target.result;
 			const wb = XLSX.read(bstr, {type:rABS ? 'binary' : 'array'});
-			/* Get first worksheet */
+			// Get first worksheet
       const wsname = wb.SheetNames[0];
 			const ws = wb.Sheets[wsname];
-			/* Convert array of arrays */
+			// Convert array of arrays
       const importData = XLSX.utils.sheet_to_json(ws);
 
       if (importData && importData.length > 0) {
         let importDataHeaders = Object.keys(importData[0]);
         if (importDataHeaders.length === headers.length
           && importDataHeaders.every((value, index) => value === headers[index])) {
-            /* Update state */        
+            // Update state     
             this.setState({ data: [...this.state.data, ...importData], cols: make_cols(ws['!ref']) });
             toastr.success("Data successfully added");
           } else {
@@ -74,14 +75,13 @@ class TableComponent extends Component {
    * Export to workbook 
    */
   exportFile() {
-    const { data, headers, filtered } = this.state;
+    const { headers } = this.state;
     const currentRecords = this.selectTable.getResolvedState().sortedData.map(item => item._original);
-    console.log(currentRecords);
-		/* convert state to workbook */
+		// convert state to workbook
 		const ws = XLSX.utils.json_to_sheet(currentRecords, {header: headers});
 		const wb = XLSX.utils.book_new();
 		XLSX.utils.book_append_sheet(wb, ws, "SheetJS");
-		/* generate XLSX file and send to client */
+		// generate XLSX file and send to client
 		XLSX.writeFile(wb, "sheetjs.xlsx");
   };
 
@@ -89,7 +89,13 @@ class TableComponent extends Component {
     const { data } = this.state;
     return (
       <div className="container">
-      <h2>The product table</h2>
+        <DragDropFile importFile={this.importFile}>
+          <div className="btn-container">
+            <DataInput importFile={this.importFile} />
+            <h1 className="title">React-table component</h1>
+            <button disabled={!data.length} className="btn-export" onClick={this.exportFile}>Export</button>
+          </div>
+        </DragDropFile>
         <ReactTable
           data={data}
           onFilteredChange={(filters, column) => {console.log(column);}}
@@ -151,20 +157,9 @@ class TableComponent extends Component {
           ]}
           filterable
           // resolveData={data => data.filter(item => item.visits > 80)}
-          defaultPageSize={10}
+          defaultPageSize={20}
           className="-striped -highlight"
         />
-        <DragDropFile importFile={this.importFile}>
-          <div className="row"><div className="col-xs-12">
-            <DataInput importFile={this.importFile} />
-          </div></div>
-          <div className="row"><div className="col-xs-12">
-            <button disabled={!data.length} className="btn btn-success" onClick={this.exportFile}>Export</button>
-          </div></div>
-          <div className="row"><div className="col-xs-12">
-            {/* <OutTable data={this.state.data} cols={this.state.cols} /> */}
-          </div></div>
-        </DragDropFile>
       </div>
     );
   }
@@ -212,8 +207,8 @@ class DataInput extends React.Component {
     return (
       <form className="form-inline">
         <div className="form-group">
-          <label htmlFor="file">Import Spreadsheet</label>
-          <input type="file" className="form-control" id="file" accept={SheetJSFT} onChange={this.handleChange} />
+          <input type="file" className="btn-import" id="file" accept={SheetJSFT} onChange={this.handleChange} />
+          <label htmlFor="file">Import</label>
         </div>
       </form>
     ); 
