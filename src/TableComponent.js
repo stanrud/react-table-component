@@ -34,7 +34,10 @@ class TableComponent extends Component {
     }
   }
 
-  /* import from workbook */
+  /**
+   * Import from workbook 
+   * @param  {} file
+   */
   importFile(file) {
     const { headers } = this.state;
 		/* Boilerplate to set up FileReader */
@@ -66,8 +69,10 @@ class TableComponent extends Component {
 		};
 		if(rABS) reader.readAsBinaryString(file); else reader.readAsArrayBuffer(file);
   }
-
-  /* export to workbook */
+  
+  /**
+   * Export to workbook 
+   */
   exportFile() {
     const { data, headers, filtered } = this.state;
     const currentRecords = this.selectTable.getResolvedState().sortedData.map(item => item._original);
@@ -165,11 +170,11 @@ class TableComponent extends Component {
   }
 }
 
-/*
-  Simple HTML5 file drag-and-drop wrapper
-  usage: <DragDropFile importFile={importFile}>...</DragDropFile>
-    importFile(file:File):void;
-*/
+/**
+ * Simple HTML5 file drag-and-drop wrapper
+ * usage: <DragDropFile importFile={importFile}>...</DragDropFile>
+ * importFile(file:File):void;
+ */
 class DragDropFile extends React.Component {
 	constructor(props) {
 		super(props);
@@ -188,11 +193,12 @@ class DragDropFile extends React.Component {
     );
   };
 };
-/*
-  Simple HTML5 file input wrapper
-  usage: <DataInput importFile={callback} />
-    importFile(file:File):void;
-*/
+
+ /**
+  * Simple HTML5 file input wrapper
+  * usage: <DataInput importFile={callback} />
+  * importFile(file:File):void;
+  */
 class DataInput extends React.Component {
 	constructor(props) {
 		super(props);
@@ -214,12 +220,17 @@ class DataInput extends React.Component {
   };
 }
 
-/* list of supported file types */
+/**
+ * list of supported file types
+ */
 const SheetJSFT = [
 	"xlsx", "xlsb", "xlsm", "xls", "xml", "csv", "txt", "ods", "fods", "uos", "sylk", "dif", "dbf", "prn", "qpw", "123", "wb*", "wq*", "html", "htm"
 ].map(function(x) { return "." + x; }).join(",");
 
-/* generate an array of column objects */
+/**
+ * generate an array of column objects
+ * @param {*} refstr 
+ */
 const make_cols = refstr => {
 	let o = [], C = XLSX.utils.decode_range(refstr).e.c + 1;
 	for(var i = 0; i < C; ++i) o[i] = {name:XLSX.utils.encode_col(i), key:i}
