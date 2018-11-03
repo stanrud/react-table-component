@@ -8,6 +8,7 @@
     "react-native-fs": "^2.12.1",
     "react-scripts": "^2.1.1",
     "react-table": "^6.8.6",
+    "toastr": "^2.1.4",
     "xlsx": "^0.14.0"
   },
   "scripts": {

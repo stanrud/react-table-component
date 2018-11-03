@@ -3,6 +3,8 @@ import ReactTable from "react-table";
 import XLSX from 'xlsx';
 import "react-table/react-table.css";
 
+let toastr = require('toastr');
+
 class TableComponent extends Component {
   constructor(props) {
     super(props);
@@ -34,6 +36,7 @@ class TableComponent extends Component {
 
   /* import from workbook */
   importFile(file) {
+    const { headers } = this.state;
 		/* Boilerplate to set up FileReader */
 		const reader = new FileReader();
 		const rABS = !!reader.readAsBinaryString;
@@ -45,10 +48,21 @@ class TableComponent extends Component {
       const wsname = wb.SheetNames[0];
 			const ws = wb.Sheets[wsname];
 			/* Convert array of arrays */
-			const importData = XLSX.utils.sheet_to_json(ws);
-			/* Update state */
-      this.setState({ data: [...this.state.data, ...importData], cols: make_cols(ws['!ref']) });
-      console.log(this.state.data);
+      const importData = XLSX.utils.sheet_to_json(ws);
+
+      if (importData && importData.length > 0) {
+        let importDataHeaders = Object.keys(importData[0]);
+        if (importDataHeaders.length === headers.length
+          && importDataHeaders.every((value, index) => value === headers[index])) {
+            /* Update state */        
+            this.setState({ data: [...this.state.data, ...importData], cols: make_cols(ws['!ref']) });
+            toastr.success("Data successfully added");
+          } else {
+            toastr.error("Incorrect file structure");
+          }
+      } else {
+        toastr.error("File is empty");
+      }
 		};
 		if(rABS) reader.readAsBinaryString(file); else reader.readAsArrayBuffer(file);
   }
