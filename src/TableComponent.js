@@ -85,6 +85,18 @@ class TableComponent extends Component {
 		XLSX.writeFile(wb, "sheetjs.xlsx");
   };
 
+  /**
+   * Non case sensitive manual Filtering 
+   * @param {*} filter 
+   * @param {*} row 
+   */
+  filterCaseInsensitive(filter, row) {
+    const id = filter.pivotId || filter.id;
+    return (
+      row[id] !== undefined ? String(row[id].toLowerCase()).includes(filter.value.toLowerCase()) : true
+    );
+  }
+
   render() {
     const { data } = this.state;
     return (
@@ -103,14 +115,11 @@ class TableComponent extends Component {
           data={data}
           onFilteredChange={(filters, column) => {console.log(column);}}
           ref={(r) => {this.selectTable = r;}}
-          defaultFilterMethod={(filter, row) =>
-            String(row[filter.id]).includes(filter.value)}
+          defaultFilterMethod={this.filterCaseInsensitive}
           columns={[
             {
               Header: "Product Name",
-              accessor: "product_name",
-              filterMethod: (filter, row) =>
-                row[filter.id].startsWith(filter.value)
+              accessor: "product_name"
             },
             {
               Header: "Manufacturer",
