@@ -10,7 +10,7 @@ class TableComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-			data: this.props.products,
+			data: [],
       cols: [],
       headers: [],
       dataImport: [],
@@ -24,12 +24,8 @@ class TableComponent extends Component {
     const { products } = this.props;
     if (products && products.length > 0) {
       let tableHeaders = Object.keys(products[0]);
-      let tableData = [];
-      products.map((item) => {
-        tableData.push(Object.values(item));
-      });
       this.setState(prevState => ({
-        // data: [...prevState.data, ...tableData],
+        data: [...prevState.data, ...products],
         headers: [...this.state.headers, ...tableHeaders]
       }));
     }
@@ -113,7 +109,6 @@ class TableComponent extends Component {
         </DragDropFile>
         <ReactTable
           data={data}
-          onFilteredChange={(filters, column) => {console.log(column);}}
           ref={(r) => {this.selectTable = r;}}
           defaultFilterMethod={this.filterCaseInsensitive}
           columns={[
